@@ -34,3 +34,23 @@ class Area():
 
 	def population(self):
 		return len(self.residents)
+	
+	def point_inside(self, point):
+		intersections = 0
+		prev_vertex = self.points[len(self.points)-1]
+		for vertex in self.points:
+			if vertex[0] == point[0] and vertex[1] == point[1]:
+				return False
+			if prev_vertex[1] == vertex[1] and prev_vertex[1] == point[1] and point[0] > min(prev_vertex[0], vertex[0]) and point[0] < max(prev_vertex[0], vertex[0]): #On a horizontal line
+				return False
+			if point[1] > min(prev_vertex[1], vertex[1]) and point[1] <= max(prev_vertex[1], vertex[1]) and point[0] < max(prev_vertex[0], vertex[0]) and prev_vertex[1] != vertex[1]:
+				xinters = (point[1] - prev_vertex[1]) * (vertex[0] - prev_vertex[0]) / (vertex[1] - prev_vertex[1]) + prev_vertex[0];
+				if xinters == point[0]: #On a line
+					return False
+				if prev_vertex[0] == vertex[0] or point[0] <= xinters:
+					intersections += 1
+			prev_vertex = vertex
+		print intersections
+		if intersections % 2 != 0:
+			return True
+		return False
