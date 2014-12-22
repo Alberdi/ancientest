@@ -1,3 +1,3 @@
 class Creature():
-    def __init__(self):
-        self.element = None
+	def __init__(self):
+		self.element = None
