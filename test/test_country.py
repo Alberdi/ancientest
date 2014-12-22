@@ -19,17 +19,14 @@ class TestCountry(unittest.TestCase):
         self.assertIsNotNone(self.c.area)
         
     # One area can be populate to creatures
-	def test_populate_area(self):
-		self.c.add_area([(0,0), (100,0), (100, 100)])
-		self.creature1 = creature.Creature()
-		self.creature2 = creature.Creature()
-		# Initially an area is empty
-		assert self.c.area.population() == 0
-        self.creature1 = creature.Creature()
+    def test_populate_area(self):
+        self.c.add_area([(0,0), (100,0), (100, 100)])
+        creature1 = creature.Creature()
+        creature2 = creature.Creature()
+        # Initially an area is empty
+        self.assertEqual(self.c.area.population, 0)
         self.c.area.add_resident(creature1);
-        assert self.c.area.population() == 1
+        self.assertEqual(self.c.area.population, 1)
         self.c.area.add_resident(creature2);
-        assert self.c.area.population() == 1
-		
-		
+        self.assertEqual(self.c.area.population, 1)
 
