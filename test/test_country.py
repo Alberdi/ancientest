@@ -35,3 +35,14 @@ class TestCountry(unittest.TestCase):
 		self.assertTrue(self.c.area.point_inside((80,20)))
 		self.assertFalse(self.c.area.point_inside((20,80)))
 		self.assertFalse(self.c.area.point_inside((100,100)))
+		
+	#Two countries are enemies if they claim the same place
+	def test_is_enemy(self):
+		c2 = country.Country()
+		c3 = country.Country()
+		self.c.add_area([(0,0), (100, 0), (100,100)])
+		self.assertFalse(self.c.is_enemy(c2))
+		c2.add_area([(0,0), (100, 0), (100, -100)])
+		self.assetFalse(self.c.is_enemy(c2))
+		c3.add_area([(20,50), (70, 30), (60, 100)])
+		self.assetTrue(self.c.is_enemy(c3))
