@@ -29,7 +29,7 @@ class Area():
 	def add_resident(self, resident):
 		for r in self.residents:
 			if r.element == resident.element:
-			return
+				return
 		self.residents.append(resident)
 
 	def population(self):

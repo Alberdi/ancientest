@@ -25,9 +25,9 @@ class TestCountry(unittest.TestCase):
 		creature2 = creature.Creature()
 		# Initially an area is empty
 		self.assertEqual(self.c.area.population(), 0)
-		self.c.area.add_resident(creature1);
+		self.c.area.add_resident(creature1)
 		self.assertEqual(self.c.area.population(), 1)
-		self.c.area.add_resident(creature2);
+		self.c.area.add_resident(creature2)
 		self.assertEqual(self.c.area.population(), 1)
 
 	def test_point_inside(self):
@@ -35,4 +35,3 @@ class TestCountry(unittest.TestCase):
 		self.assertTrue(self.c.area.point_inside((80,20)))
 		self.assertFalse(self.c.area.point_inside((20,80)))
 		self.assertFalse(self.c.area.point_inside((100,100)))
-
