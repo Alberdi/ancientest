@@ -24,9 +24,9 @@ class TestCountry(unittest.TestCase):
         creature1 = creature.Creature()
         creature2 = creature.Creature()
         # Initially an area is empty
-        self.assertEqual(self.c.area.population, 0)
+        self.assertEqual(self.c.area.population(), 0)
         self.c.area.add_resident(creature1);
-        self.assertEqual(self.c.area.population, 1)
+        self.assertEqual(self.c.area.population(), 1)
         self.c.area.add_resident(creature2);
-        self.assertEqual(self.c.area.population, 1)
+        self.assertEqual(self.c.area.population(), 1)
 
