@@ -14,10 +14,10 @@ class Country():
 				if before_point:
 					x = (before_point[0] - point[0])
 					incline = (before_point[1] - point[1])/x if x else 999999999999999999
-				if before_incline == None:
-					before_incline = incline
-				elif before_incline != incline:
-					return False
+					if before_incline == None:
+						before_incline = incline
+					elif before_incline != incline:
+						return False
 				before_point = point
 		return True
 
