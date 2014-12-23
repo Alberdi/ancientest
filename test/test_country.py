@@ -43,6 +43,6 @@ class TestCountry(unittest.TestCase):
 		self.c.add_area([(0,0), (100, 0), (100,100)])
 		self.assertFalse(self.c.is_enemy(c2))
 		c2.add_area([(0,0), (100, 0), (100, -100)])
-		self.assetFalse(self.c.is_enemy(c2))
+		self.assertFalse(self.c.is_enemy(c2))
 		c3.add_area([(20,50), (70, 30), (60, 100)])
-		self.assetTrue(self.c.is_enemy(c3))
+		self.assertTrue(self.c.is_enemy(c3))

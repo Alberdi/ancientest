@@ -6,6 +6,17 @@ class Country():
 		if not self._check_inline(list_of_points):
 			self.area = Area(list_of_points)
 
+	def is_enemy(self, other):
+		if not self.area or not other.area:
+			return False
+		for point in self.area.points:
+			if other.area.point_inside(point):
+				return True
+		for point in other.area.points:
+			if self.area.point_inside(point):
+				return True
+		return self.area.intersects(other.area)
+
 	def _check_inline(self, list_of_points):
 		if len(list_of_points) > 2:
 			before_point = None
@@ -32,6 +43,17 @@ class Area():
 				return
 		self.residents.append(resident)
 
+	def intersects(self, other):
+		p1 = self.points
+		p2 = other.points
+		for i in xrange(len(p1)):
+			for j in xrange(len(p2)):
+				if p1[i-1] in [p2[j-1], p2[j]] or p1[i] in [p2[j-1], p2[j]]:
+					continue
+				if self._segment_intersect((p1[i-1], p1[i]), (p2[j-1], p2[j])):
+					return True
+		return False
+
 	def population(self):
 		return len(self.residents)
 	
@@ -50,7 +72,14 @@ class Area():
 				if prev_vertex[0] == vertex[0] or point[0] <= xinters:
 					intersections += 1
 			prev_vertex = vertex
-		print intersections
 		if intersections % 2 != 0:
 			return True
 		return False
+
+	def _segment_intersect(self, s1, s2):
+		# ccw = counter clock wise, aka magic
+		# Check http://bryceboe.com/2006/10/23/line-segment-intersection-algorithm/
+		ccw = lambda p1, p2, p3: cmp((p3[1]-p1[1])*(p2[0]-p1[0]) - (p2[1]-p1[1])*(p3[0]-p1[0]), 0)
+		return ccw(s1[0], s1[1], s2[0]) != ccw(s1[0], s1[1], s2[1]) and \
+				ccw(s2[0], s2[1], s1[0]) != ccw(s2[0], s2[1], s1[1])
+
