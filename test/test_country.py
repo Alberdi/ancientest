@@ -46,3 +46,19 @@ class TestCountry(unittest.TestCase):
 		self.assertFalse(self.c.is_enemy(c2))
 		c3.add_area([(20,50), (70, 30), (60, 100)])
 		self.assertTrue(self.c.is_enemy(c3))
+
+	# Creatures on a country give it strength
+	def test_strength(self):
+		self.c.add_area([(0,0), (100,0), (100,100)])
+		self.assertEqual(self.c.strength(), 0)
+		creature = creature.Creature()
+		self.c.add_resident(creature)
+		normal_creature_strength = self.c.strength()
+		self.assertTrue(normal_creature_strength > 0)
+		# A creature gives less strength if the country element doesn't match
+		self.c.change_element("FIRE")
+		self.assertTrue(normal_creature_strength > self.c.strength() > 0)
+		# But gives more if the element does match
+		creature.change_element("FIRE")
+		self.assertTrue(normal_creature_strength < self.c.strength())
+
