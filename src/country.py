@@ -1,6 +1,9 @@
+from element import Element
+
 class Country():
 	def __init__(self):
 		self.area = None
+		self.element = None
 
 	def add_area(self, list_of_points):
 		if not self._check_inline(list_of_points):
@@ -31,6 +34,15 @@ class Country():
 						return False
 				before_point = point
 		return True
+	
+	def strength(self):
+		strength = 0
+		for resident in self.area.residents:
+			strength += resident.get_strength_to(self.element)
+		return strength
+	
+	def change_element(self, new_element):
+		self.element = Element.getId(new_element)
 
 class Area():
 	def __init__(self, points):
