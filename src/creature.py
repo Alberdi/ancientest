@@ -25,3 +25,10 @@ class Creature():
 			return self.residence.country
 		return None
 
+	def fight(self, enemy_strength, live_element=None):
+		real_strength = self.get_strength_to(live_element)
+		if real_strength < enemy_strength:
+			return (False, enemy_strength - real_strength)
+		else:
+			self.strength -= enemy_strength
+			return (True, self.strength)

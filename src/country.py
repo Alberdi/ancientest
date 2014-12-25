@@ -43,6 +43,20 @@ class Country():
 	
 	def change_element(self, new_element):
 		self.element = Element.getId(new_element)
+		
+	def fight(self, enemy):
+		if self.is_enemy(enemy):
+			enemy_strength = enemy.strength()
+			for resident in self.area.residents:
+				(was_dead, new_strength) = resident.fight(enemy_strength, self.element)
+				if was_dead:
+					enemy_strength = new_strength
+				else:
+					return self
+			return self
+		else:
+			return None
+		
 
 class Area():
 	def __init__(self, points, country):
