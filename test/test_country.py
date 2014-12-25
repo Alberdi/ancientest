@@ -62,3 +62,24 @@ class TestCountry(unittest.TestCase):
 		creature1.change_element("FIRE")
 		self.assertTrue(normal_creature_strength < self.c.strength())
 
+	# Countries can fight enemy countries
+	def test_fight(self):
+		self.c.add_area([(0,0), (100, 0), (100, 100)])
+		friendly_creature = creature.Creature()
+		self.c.area.add_resident(friendly_creature)
+
+		non_enemy_country = country.Country()
+		non_enemy_country.add_area([(0,0), (100, 0), (100, -100)])
+		non_enemy_creature = creature.Creature()
+		non_enemy_country.area.add_resident(non_enemy_creature)
+		# Can't fight non-enemy countries
+		self.assertIsNone(self.c.fight(non_enemy_country))
+
+		enemy_country = country.Country()
+		enemy_country.add_area([(20,50), (70, 30), (60, 100)])
+		enemy_creature = creature.Creature()
+		enemy_creature.strength -= 2
+		enemy_country.area.add_resident(enemy_creature)
+		self.assertEqual(self.c.fight(enemy_country), self.c)
+		self.assertEqual(self.c.strength(), 2)
+
