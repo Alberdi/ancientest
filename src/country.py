@@ -7,7 +7,7 @@ class Country():
 
 	def add_area(self, list_of_points):
 		if not self._check_inline(list_of_points):
-			self.area = Area(list_of_points)
+			self.area = Area(list_of_points, self)
 
 	def is_enemy(self, other):
 		if not self.area or not other.area:
@@ -45,8 +45,9 @@ class Country():
 		self.element = Element.getId(new_element)
 
 class Area():
-	def __init__(self, points):
+	def __init__(self, points, country):
 		self.points = points
+		self.country = country
 		self.residents = []
 
 	def add_resident(self, resident):
@@ -54,6 +55,7 @@ class Area():
 			if r.element == resident.element:
 				return
 		self.residents.append(resident)
+		resident.add_residence(self)
 
 	def intersects(self, other):
 		p1 = self.points

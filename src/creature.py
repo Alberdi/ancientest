@@ -3,7 +3,11 @@ from element import Element
 class Creature():
 	def __init__(self):
 		self.element = None
+		self.residence = None
 		self.strength = 10
+	
+	def add_residence(self, area):
+		self.residence = area
 
 	def get_strength_to(self, country_element):
 		if country_element == None:
@@ -15,3 +19,9 @@ class Creature():
 		
 	def change_element(self, new_element):
 		self.element = Element.getId(new_element)
+	
+	def where_do_i_live(self):
+		if self.residence:
+			return self.residence.country
+		return None
+
