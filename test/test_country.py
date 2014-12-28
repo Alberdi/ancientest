@@ -83,3 +83,31 @@ class TestCountry(unittest.TestCase):
 		self.assertEqual(self.c.fight(enemy_country), self.c)
 		self.assertEqual(self.c.strength(), 2)
 
+	# Creatures on a country get paid to defend it
+	def test_pay_upkeep(self):
+		self.c.add_area([(0,0), (100, 0), (100, 100)])
+		starting_coins = self.c.current_coins()
+		creature = creature.Creature()
+		self.c.area.add_resident(creature)
+		self.c.pay_upkeep()
+		first_payment = starting_coins - self.c.current_coins()
+		self.assertTrue(payment > 0)
+
+		# Matching creatures are free
+		self.c.change_element("FIRE")
+		creature.change_element("FIRE")
+		self.c.pay_upkeep()
+		matching_payment = starting_coins - first_payment - self.c.current_coins()
+		self.assertTrue(matching_payment == 0)
+
+		# Opposite creatures pay more
+		creature.change_element("WATER")
+		self.c.pay_upkeep()
+		opposite_payment = starting_coins - first_payment - self.c.current_coins()
+		self.assertTrue(opposite_payment > first_payment)
+
+		# Creatures will leave if they can't be paid
+		while creature.where_do_i_live() == self.c:
+			self.c.pay_upkeep()
+		self.assertNotEqual(creature.where_do_i_live(), self.c)
+
