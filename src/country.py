@@ -9,7 +9,13 @@ class Country():
 		if not self._check_inline(list_of_points):
 			self.area = Area(list_of_points, self)
 
+	def is_adjacent(self, other):
+		return self._intersects(other, False)
+
 	def is_enemy(self, other):
+		return self._intersects(other, True)
+	
+	def _intersects(self, other, include_borders):
 		if not self.area or not other.area:
 			return False
 		for point in self.area.points:
@@ -18,7 +24,7 @@ class Country():
 		for point in other.area.points:
 			if self.area.point_inside(point):
 				return True
-		return self.area.intersects(other.area)
+		return self.area.intersects(other.area, include_borders)
 
 	def _check_inline(self, list_of_points):
 		if len(list_of_points) > 2:
@@ -70,13 +76,17 @@ class Area():
 				return
 		self.residents.append(resident)
 		resident.add_residence(self)
+	
+	def remove_resident(self, resident):
+		self.residents.remove(resident)
+		resident.remove_residence(self)
 
-	def intersects(self, other):
+	def intersects(self, other, include_borders):
 		p1 = self.points
 		p2 = other.points
 		for i in xrange(len(p1)):
 			for j in xrange(len(p2)):
-				if p1[i-1] in [p2[j-1], p2[j]] or p1[i] in [p2[j-1], p2[j]]:
+				if include_borders and p1[i-1] in [p2[j-1], p2[j]] or p1[i] in [p2[j-1], p2[j]]:
 					continue
 				if self._segment_intersect((p1[i-1], p1[i]), (p2[j-1], p2[j])):
 					return True
